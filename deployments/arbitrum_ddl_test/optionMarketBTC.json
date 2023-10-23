@@ -1,0 +1,198 @@
+{
+  "address": "0xe044919cf58dFb066FC9DE7c69C7db19f336B20c",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "baseAsset",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "strikeId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "positionId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "iterations",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum IOptionMarket.OptionType",
+              "name": "optionType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "setCollateralTo",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "minTotalCost",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "maxTotalCost",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "referrer",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct IOptionMarket.TradeInputParameters",
+          "name": "params",
+          "type": "tuple"
+        }
+      ],
+      "name": "closePosition",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "positionId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalCost",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalFee",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IOptionMarket.Result",
+          "name": "result",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "strikeId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "positionId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "iterations",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum IOptionMarket.OptionType",
+              "name": "optionType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "setCollateralTo",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "minTotalCost",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "maxTotalCost",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "referrer",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct IOptionMarket.TradeInputParameters",
+          "name": "params",
+          "type": "tuple"
+        }
+      ],
+      "name": "openPosition",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "positionId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalCost",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalFee",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IOptionMarket.Result",
+          "name": "result",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "quoteAsset",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "numDeployments": 5
+}
