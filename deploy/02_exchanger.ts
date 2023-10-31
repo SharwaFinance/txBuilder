@@ -7,13 +7,15 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
 
   const swapRouter = await get("swapRouter")
   const role_manager = await get("RoleManager")
+  const WETH = await get("WETH")
 
   await deploy("Exchanger", {
     from: deployer,
     log: true,
     args: [
       swapRouter.address,
-      role_manager.address
+      role_manager.address,
+      WETH.address
     ],
   })
 

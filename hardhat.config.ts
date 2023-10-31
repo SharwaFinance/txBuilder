@@ -3,6 +3,9 @@ import "hardhat-deploy"
 import "hardhat-deploy-ethers"
 import "@keep-network/hardhat-local-networks-config"
 import "@nomicfoundation/hardhat-toolbox";
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const config: HardhatUserConfig = {
   localNetworksConfitg: "~/.hardhat/config.json",
@@ -11,6 +14,9 @@ const config: HardhatUserConfig = {
     deployer: {
       default: 0
     }
+  },
+  etherscan: {
+    apiKey: process.env.ARBITRUM_API_KEY,
   },
 };
 

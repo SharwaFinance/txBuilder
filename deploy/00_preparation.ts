@@ -59,6 +59,11 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
     abi: await getArtifact("contracts/lyra/IOptionToken.sol:IOptionToken").then((x) => x.abi),
   })
 
+  save("proxySeller", {
+    address: "0x7740FC99bcaE3763a5641e450357a94936eaF380",
+    abi: await getArtifact("contracts/hegic/IProxySeller.sol:IProxySeller").then((x) => x.abi),
+  })
+
   save("operationalTreasury", {
     address: "0xec096ea6eB9aa5ea689b0CF00882366E92377371",
     abi: await getArtifact("contracts/hegic/IOperationalTreasury.sol:IOperationalTreasury").then((x) => x.abi),

@@ -24,6 +24,7 @@ import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRoute
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {RoleManager, Ownable} from "../RoleManager.sol";
 import {IExchanger} from "./IExchanger.sol";
+import {IWETH9} from "./IWETH9.sol";
 
 /**
  * @title Exchanger
@@ -36,13 +37,16 @@ contract Exchanger is Ownable, IExchanger {
 
     ISwapRouter public swapRouter;
     RoleManager public roleManager;
+    IWETH9 public weth9;
 
     constructor(
         address _swapRouter,
-        address _roleManager
+        address _roleManager,
+        address _weth9
     ) {
         swapRouter = ISwapRouter(_swapRouter);
         roleManager = RoleManager(_roleManager);
+        weth9 = IWETH9(_weth9);
     }
 
     // EXTERNAL FUNCTIONS // 
@@ -56,6 +60,7 @@ contract Exchanger is Ownable, IExchanger {
 
         if (exchangeData.swap) {
             uint256 msgValue;
+            uint256 amountOut;
 
             if (exchangeData.isETH) {
                 msgValue = exchangeData.amountIn;
@@ -63,8 +68,11 @@ contract Exchanger is Ownable, IExchanger {
                 TransferHelper.safeTransferFrom(exchangeData.tokenIn, from, address(this), exchangeData.amountIn);
                 TransferHelper.safeApprove(exchangeData.tokenIn, address(swapRouter), exchangeData.amountIn);
             }
-
-            ISwapRouter.ExactInputParams memory params =
+            
+            if (exchangeData.isETH && exchangeData.tokenIn == exchangeData.tokenOut) {
+                weth9.deposit{value: msgValue}();
+            } else {
+                ISwapRouter.ExactInputParams memory params =
                 ISwapRouter.ExactInputParams({
                     path: exchangeData.path,
                     recipient: address(this),
@@ -73,10 +81,12 @@ contract Exchanger is Ownable, IExchanger {
                     amountOutMinimum: exchangeData.amountOutMinimum
                 });
 
-            uint256 amountOut = swapRouter.exactInput{value: msgValue}(params);
+                amountOut = swapRouter.exactInput{value: msgValue}(params);
+                require(amountOut >= exchangeData.amountOutMinimum, "invalid swap");
+                ERC20(exchangeData.tokenOut).transfer(from, amountOut - exchangeData.amountOutMinimum);
+            }
+
             ERC20(exchangeData.tokenOut).transfer(to, exchangeData.amountOutMinimum);
-            require(amountOut >= exchangeData.amountOutMinimum, "invalid swap");
-            ERC20(exchangeData.tokenOut).transfer(from, amountOut - exchangeData.amountOutMinimum);
             
             if (exchangeData.isETH && address(this).balance != 0) payable(to).transfer(address(this).balance);
         } else {

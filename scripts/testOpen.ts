@@ -55,7 +55,7 @@ async function main() {
   let txBuilderOpenLyraBTC = (await hre.ethers.getContract("txBuilderOpenLyraBTC")) as TxBuilderOpenLyra
   let roleManager = (await hre.ethers.getContract("RoleManager")) as RoleManager
   let exchanger = (await hre.ethers.getContract("Exchanger")) as Exchanger  
-  let USDC = (await hre.ethers.getContract("USDC")) as ERC20
+  let USDC = (await hre.ethers.getContract("USDCe")) as ERC20
   let USDT = (await hre.ethers.getContract("USDT")) as ERC20
   let WETH = (await hre.ethers.getContract("WETH")) as ERC20
   let WBTC = (await hre.ethers.getContract("WBTC")) as ERC20
@@ -65,57 +65,59 @@ async function main() {
 
   // await txBuilder.withdrawERC20(USDC.address, deployer.address, await USDC.balanceOf(txBuilder.address));
   
-  await USDT.connect(deployer).approve(exchanger.address, ethers.constants.MaxUint256)
+  await USDC.connect(deployer).approve(exchanger.address, ethers.constants.MaxUint256)
   // await WETH.connect(deployer).approve(exchanger.address, ethers.constants.MaxUint256)
   // await WBTC.connect(deployer).approve(exchanger.address, ethers.constants.MaxUint256)
 
   const moduleArray = [
     await txBuilder.module(ProtocolType.hegic),
-    await txBuilder.module(ProtocolType.lyra_eth)
+    // await txBuilder.module(ProtocolType.lyra_eth)
   ]
 
   const parametersArray = [
       await txBuilderOpenHegic.encodeFromHegic(
-        "0x09a4B65b3144733f1bFBa6aEaBEDFb027a38Fb60",
+        "0x09a4b65b3144733f1bfba6aeabedfb027a38fb60",
         parseUnits("0.01", 18),
-        604800,
+        662395,
         BN.from("115792089237316195423570985008687907853269984665640564039457584007913129639935"), // maxTotalCost
         []
       ),
-      await txBuilderOpenLyraETH.encodeFromLyra(
-      {    
-          strikeId: 395,
-          positionId: 0,
-          iterations: 1,
-          optionType: 2,
-          amount: BN.from("100000000000000000"),
-          setCollateralTo: BN.from("100000000000000000"),
-          minTotalCost: BN.from("2802148164891014958"),
-          maxTotalCost: BN.from("115792089237316195423570985008687907853269984665640564039457584007913129639935"),
-          referrer: ethers.constants.AddressZero
-      }
-    )
+    //   await txBuilderOpenLyraETH.encodeFromLyra(
+    //   {    
+    //       strikeId: 395,
+    //       positionId: 0,
+    //       iterations: 1,
+    //       optionType: 2,
+    //       amount: BN.from("100000000000000000"),
+    //       setCollateralTo: BN.from("100000000000000000"),
+    //       minTotalCost: BN.from("2802148164891014958"),
+    //       maxTotalCost: BN.from("115792089237316195423570985008687907853269984665640564039457584007913129639935"),
+    //       referrer: ethers.constants.AddressZero
+    //   }
+    // )
   ]
+
+  console.log(((await txBuilderOpenHegic.calculateAmount(parametersArray[0])).amount).toString())
 
   const swapDataArray = [
     await exchanger.encodeFromExchange({
       path: solidityPack(["address", "uint24", "address"], [USDT.address, 3000, USDC.address]),
-      tokenIn: USDT.address,
+      tokenIn: USDC.address,
       tokenOut: USDC.address,
-      amountIn: parseUnits("0.5", 6),
+      amountIn: parseUnits("1", 6),
       amountOutMinimum: (await txBuilderOpenHegic.calculateAmount(parametersArray[0])).amount,
       isETH: false,
-      swap: true
+      swap: false
     }),
-    await exchanger.encodeFromExchange({
-      path: solidityPack(["address", "uint24", "address"], [USDT.address, 3000, WETH.address]),
-      tokenIn: USDT.address,
-      tokenOut: WETH.address,
-      amountIn: parseUnits("190", 6),
-      amountOutMinimum: parseUnits("0.1", 18),
-      isETH: false,
-      swap: true
-    })
+    // await exchanger.encodeFromExchange({
+    //   path: solidityPack(["address", "uint24", "address"], [USDC.address, 3000, WETH.address]),
+    //   tokenIn: USDC.address,
+    //   tokenOut: USDC.address,
+    //   amountIn: parseUnits("190", 6),
+    //   amountOutMinimum: parseUnits("0.1", 18),
+    //   isETH: false,
+    //   swap: false
+    // })
   ]
 
   // parseUnits("0.00817393", 18)
