@@ -51,15 +51,6 @@ interface ITxBuilder {
     function setModule(uint256 index, Module calldata modData) external;
 
     /**
-     * @notice Approve the spending of a specified amount of tokens by a given address.
-     * @dev This external function allows the contract owner to approve the spending of a specified amount of tokens by a specific address.
-     * @param token The address of the token contract.
-     * @param to The address that will be approved to spend the tokens.
-     * @param amount The amount of tokens to approve for spending.
-     */
-    function allApprove(address token, address to, uint256 amount) external;
-
-    /**
      * @notice Withdraw Ether (ETH) to a specified user address.
      * @dev This external function allows the contract owner to withdraw Ether (ETH) to a specified user address.
      * @param user The address of the user to receive the ETH.

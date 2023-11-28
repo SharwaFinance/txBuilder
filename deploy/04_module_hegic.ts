@@ -11,42 +11,33 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
   const hegicErc721 = await get("hegicErc721") 
   const USDC = await get("USDCe") 
 
-  const txBuilderOpenHegic = await deploy("TxBuilderOpenHegic", {
-    from: deployer,
-    log: true,
-    args: [
-      proxySeller.address,
-      hegicErc721.address,
-      USDC.address,
-      referrer
-    ],
-  })
+  // const txBuilderOpenHegic = await deploy("TxBuilderOpenHegic", {
+  //   from: deployer,
+  //   log: true,
+  //   args: [
+  //     proxySeller.address,
+  //     hegicErc721.address,
+  //     USDC.address,
+  //     referrer
+  //   ],
+  // })
 
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "setModule",
-    2,
-    {
-      moduleAddress: txBuilderOpenHegic.address, 
-      name: "hegic"
-    }
-  )
+  // await execute(
+  //   "TxBuilder",
+  //   {log: true, from: deployer},
+  //   "setModule",
+  //   2,
+  //   {
+  //     moduleAddress: txBuilderOpenHegic.address, 
+  //     name: "hegic"
+  //   }
+  // )
 
-  await execute(
-    "TxBuilderOpenHegic",
-    {log: true, from: deployer},
-    "allApprove",
-  )
-
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "allApprove",
-    USDC.address,
-    txBuilderOpenHegic.address,
-    ethers.constants.MaxUint256
-  )
+  // await execute(
+  //   "TxBuilderOpenHegic",
+  //   {log: true, from: deployer},
+  //   "allApprove",
+  // )
 
 }
 

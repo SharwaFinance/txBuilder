@@ -11,103 +11,64 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
   const optionMarketETH = await get("optionMarketETH")
   const lyra_btcErc721 = await get("lyra_btcErc721")
   const optionMarketBTC = await get("optionMarketBTC")
-  const USDC = await get("USDCe") 
-  const WETH = await get("WETH") 
-  const WBTC = await get("WBTC") 
 
-  const txBuilderOpenLyraETH = await deploy("txBuilderOpenLyraETH", {
-    contract: "TxBuilderOpenLyra",
-    from: deployer,
-    log: true,
-    args: [
-      optionMarketETH.address,
-      lyra_ethErc721.address,
-      referrer
-    ],
-  })
+  // const txBuilderOpenLyraETH = await deploy("txBuilderOpenLyraETH", {
+  //   contract: "TxBuilderOpenLyra",
+  //   from: deployer,
+  //   log: true,
+  //   args: [
+  //     optionMarketETH.address,
+  //     lyra_ethErc721.address,
+  //     referrer
+  //   ],
+  // })
 
-  await execute(
-    "txBuilderOpenLyraETH",
-    {log: true, from: deployer},
-    "allApprove"
-  )
+  // await execute(
+  //   "txBuilderOpenLyraETH",
+  //   {log: true, from: deployer},
+  //   "allApprove"
+  // )
 
-  const txBuilderOpenLyraBTC = await deploy("txBuilderOpenLyraBTC", {
-    contract: "TxBuilderOpenLyra",
-    from: deployer,
-    log: true,
-    args: [
-      optionMarketBTC.address,
-      lyra_btcErc721.address,
-      referrer
-    ],
-  })
+  // const txBuilderOpenLyraBTC = await deploy("txBuilderOpenLyraBTC", {
+  //   contract: "TxBuilderOpenLyra",
+  //   from: deployer,
+  //   log: true,
+  //   args: [
+  //     optionMarketBTC.address,
+  //     lyra_btcErc721.address,
+  //     referrer
+  //   ],
+  // })
 
-  await execute(
-    "txBuilderOpenLyraBTC",
-    {log: true, from: deployer},
-    "allApprove"
-  )
+  // await execute(
+  //   "txBuilderOpenLyraBTC",
+  //   {log: true, from: deployer},
+  //   "allApprove"
+  // )
 
-  // TxBuilder preparation
+  // // TxBuilder preparation
 
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "setModule",
-    0,
-    {
-      moduleAddress: txBuilderOpenLyraETH.address, 
-      name: "lyra_eth"
-    }
-  )
+  // await execute(
+  //   "TxBuilder",
+  //   {log: true, from: deployer},
+  //   "setModule",
+  //   0,
+  //   {
+  //     moduleAddress: txBuilderOpenLyraETH.address, 
+  //     name: "lyra_eth"
+  //   }
+  // )
 
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "setModule",
-    1,
-    {
-      moduleAddress: txBuilderOpenLyraBTC.address, 
-      name: "lyra_btc"
-    }
-  )
-
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "allApprove",
-    USDC.address,
-    txBuilderOpenLyraETH.address,
-    ethers.constants.MaxUint256
-  )
-
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "allApprove",
-    WETH.address,
-    txBuilderOpenLyraETH.address,
-    ethers.constants.MaxUint256
-  )
-
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "allApprove",
-    USDC.address,
-    txBuilderOpenLyraBTC.address,
-    ethers.constants.MaxUint256
-  )
-
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "allApprove",
-    WBTC.address,
-    txBuilderOpenLyraBTC.address,
-    ethers.constants.MaxUint256
-  )
+  // await execute(
+  //   "TxBuilder",
+  //   {log: true, from: deployer},
+  //   "setModule",
+  //   1,
+  //   {
+  //     moduleAddress: txBuilderOpenLyraBTC.address, 
+  //     name: "lyra_btc"
+  //   }
+  // )
 
 }
 

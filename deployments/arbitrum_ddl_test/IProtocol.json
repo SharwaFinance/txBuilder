@@ -1,0 +1,19 @@
+{
+  "address": "0x4e920e9A901069d9b211646B6E191d81BA40E5FB",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "optionRegistry",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "numDeployments": 5
+}

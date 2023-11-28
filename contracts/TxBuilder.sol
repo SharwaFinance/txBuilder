@@ -62,13 +62,6 @@ contract TxBuilder is Ownable, ITxBuilder {
     }
 
     /**
-     * @dev See {ITxBuilder-allApprove}.
-     */
-    function allApprove(address token, address to, uint256 amount) external onlyOwner {
-        ERC20(token).approve(to, amount);
-    }   
-
-    /**
      * @dev See {ITxBuilder-withdrawETH}.
      */
     function withdrawETH(address user, uint256 amount) external onlyOwner {
