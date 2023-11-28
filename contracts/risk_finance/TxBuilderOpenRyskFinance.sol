@@ -53,6 +53,9 @@ contract TxBuilderOpenRyskFinance is BaseTxBuilderOpen, ITxBuilderOpenRyskFinanc
 
     // EXTERNAL FUNCTIONS //  
 
+    /**
+     * @dev See {ITxBuilderOpenRyskFinance-allApprove}.
+     */
     function allApprove() external {
         usdc.approve(address(optionExchange), type(uint256).max);
         weth.approve(address(optionExchange), type(uint256).max);
@@ -61,6 +64,15 @@ contract TxBuilderOpenRyskFinance is BaseTxBuilderOpen, ITxBuilderOpenRyskFinanc
 
     // PUBLIC FUNCTIONS //  
 
+    /**
+     * @dev This public view function `calculateAmount` takes encoded parameters from Rysk Finance and decodes them
+     * to determine the token and amount involved in the specified Rysk operations. The decoded parameters represent
+     * a series of actions (operation procedures) related to Rysk Finance.
+     *
+     * @param parameters Encoded parameters containing Rysk Finance operation details.
+     * @return token The address of the token involved in the Rysk operations.
+     * @return amount The total amount associated with the specified Rysk operations.
+     */
     function calculateAmount(
         bytes memory parameters
     ) public view override returns (
@@ -107,41 +119,18 @@ contract TxBuilderOpenRyskFinance is BaseTxBuilderOpen, ITxBuilderOpenRyskFinanc
         }
     }    
 
-    function getOtokensAddresses(ICombinedActions.OperationProcedures[] memory operationProcedures) public view returns (address[] memory) {
-        uint256 lenRyskActionArgs;
-
-        for (uint256 i; i < operationProcedures.length; i++) {
-            if (operationProcedures[i].operation == ICombinedActions.OperationType.RYSK) {
-                    lenRyskActionArgs++;
-            }
-        }
-        
-        ICombinedActions.ActionArgs[] memory ryskActionArgs = new ICombinedActions.ActionArgs[](lenRyskActionArgs);
-
-        for (uint256 i; i < lenRyskActionArgs; i++) {
-            if (operationProcedures[i].operation == ICombinedActions.OperationType.RYSK) {
-                for (uint256 index; index < operationProcedures[i].operationQueue.length; index++) {
-                    ryskActionArgs[i] = operationProcedures[i].operationQueue[index];
-                }
-            }
-        }
-
-        uint256 indexArrOtokens = 0;
-        address[] memory arrOtokens = new address[](lenRyskActionArgs);
-        
-        for (uint256 i; i < lenRyskActionArgs; i++) {
-            if (ryskActionArgs[i].actionType == 1 || ryskActionArgs[i].actionType == 2) {
-                (address seriesAddress,,) = optionExchange.getOptionDetails(address(0), ryskActionArgs[i].optionSeries);
-                arrOtokens[indexArrOtokens] = seriesAddress;
-                indexArrOtokens++;
-            }
-
-        }
-        return arrOtokens;
-    }
-
     // INTERNAL FUNCTIONS //    
 
+    /**
+     * @dev This internal function `_processTx` is responsible for processing a transaction based on Rysk Finance parameters.
+     * It decodes the provided parameters, calculates the involved token and amount, performs operations on the options exchange,
+     * transfers any remaining USDC, WETH, and WBTC balances back to the user, and emits an event to signal the opening of a position
+     * by Rysk Finance.
+     *
+     * @param parameters Encoded parameters containing Rysk Finance operation details.
+     * @param buildID Identifier for the build associated with the transaction.
+     * @param user The address of the user initiating the transaction.
+     */
     function _processTx(
         bytes memory parameters, 
         uint256 buildID,
@@ -154,12 +143,6 @@ contract TxBuilderOpenRyskFinance is BaseTxBuilderOpen, ITxBuilderOpenRyskFinanc
         (address token, ) = calculateAmount(parameters);
         
         optionExchange.operate(operationProcedures);
-
-        address[] memory oTokens = getOtokensAddresses(operationProcedures);
-        
-        for (uint256 i; i < oTokens.length; i++) {
-            ERC20(oTokens[i]).transfer(user, ERC20(oTokens[i]).balanceOf(address(this)));
-        }
 
         uint256 balanceUSDC = ERC20(usdc).balanceOf(address(this));
         if (balanceUSDC != 0) {
@@ -181,12 +164,18 @@ contract TxBuilderOpenRyskFinance is BaseTxBuilderOpen, ITxBuilderOpenRyskFinanc
 
     // PURE FUNCTIONS //
 
+    /**
+     * @dev See {ITxBuilderOpenRyskFinance-encodeFromRyskFinance}.
+     */
     function encodeFromRyskFinance(
         ICombinedActions.OperationProcedures[] memory operationProcedures
     ) external pure returns (bytes memory paramData) {
         return abi.encode(operationProcedures);
     }
 
+    /**
+     * @dev See {ITxBuilderOpenRyskFinance-decodeFromRyskFinance}.
+     */
     function decodeFromRyskFinance(
         bytes memory paramData
     ) public pure returns (
