@@ -1,6 +1,7 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "hardhat-deploy"
-import "hardhat-deploy-ethers"
+import '@nomicfoundation/hardhat-ethers';
+import 'hardhat-deploy';
+import 'hardhat-deploy-ethers';
 import "@keep-network/hardhat-local-networks-config"
 import "@nomicfoundation/hardhat-toolbox";
 import dotenv from "dotenv"
@@ -8,8 +9,21 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const config: HardhatUserConfig = {
-  localNetworksConfitg: "~/.hardhat/config.json",
-  solidity: "0.8.9",
+  localNetworksConfig: '~/.hardhat/networks.json',
+  solidity: {
+    compilers: [
+      {
+        version: "0.8.19",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+          viaIR: true,
+        },
+      },
+    ],
+  },
   namedAccounts: {
     deployer: {
       default: 0

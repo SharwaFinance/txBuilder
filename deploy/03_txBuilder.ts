@@ -19,7 +19,7 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
     ],
   })
 
-  await execute("RoleManager", {from: deployer}, "grantRole", TRADER_ROLE, txBuilder.address)
+  // await execute("RoleManager", {from: deployer}, "grantRole", TRADER_ROLE, txBuilder.address)
 }
 
 deployment.tags = ["txBuilder"]

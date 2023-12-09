@@ -13,8 +13,6 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
   const WETH = await get("WETH")
   const WBTC = await get("WBTC")
 
-  console.log("module rysk finance start...")
-
   const txBuilderOpenRyskFinance = await deploy("TxBuilderOpenRyskFinance", {
     from: deployer,
     log: true,
@@ -28,22 +26,22 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
     ],
   })
 
-  await execute(
-    "TxBuilder",
-    {log: true, from: deployer},
-    "setModule",
-    3,
-    {
-      moduleAddress: txBuilderOpenRyskFinance.address, 
-      name: "rysk_finance"
-    }
-  )
+  // await execute(
+  //   "TxBuilder",
+  //   {log: true, from: deployer},
+  //   "setModule",
+  //   3,
+  //   {
+  //     moduleAddress: txBuilderOpenRyskFinance.address, 
+  //     name: "rysk_finance"
+  //   }
+  // )
 
-  await execute(
-    "TxBuilderOpenRyskFinance",
-    {log: true, from: deployer},
-    "allApprove",
-  )
+  // await execute(
+  //   "TxBuilderOpenRyskFinance",
+  //   {log: true, from: deployer},
+  //   "allApprove",
+  // )
 
 }
 

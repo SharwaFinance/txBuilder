@@ -12,16 +12,16 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
   const lyra_btcErc721 = await get("lyra_btcErc721")
   const optionMarketBTC = await get("optionMarketBTC")
 
-  // const txBuilderOpenLyraETH = await deploy("txBuilderOpenLyraETH", {
-  //   contract: "TxBuilderOpenLyra",
-  //   from: deployer,
-  //   log: true,
-  //   args: [
-  //     optionMarketETH.address,
-  //     lyra_ethErc721.address,
-  //     referrer
-  //   ],
-  // })
+  const txBuilderOpenLyraETH = await deploy("txBuilderOpenLyraETH", {
+    contract: "TxBuilderOpenLyra",
+    from: deployer,
+    log: true,
+    args: [
+      optionMarketETH.address,
+      lyra_ethErc721.address,
+      referrer
+    ],
+  })
 
   // await execute(
   //   "txBuilderOpenLyraETH",
@@ -29,16 +29,16 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
   //   "allApprove"
   // )
 
-  // const txBuilderOpenLyraBTC = await deploy("txBuilderOpenLyraBTC", {
-  //   contract: "TxBuilderOpenLyra",
-  //   from: deployer,
-  //   log: true,
-  //   args: [
-  //     optionMarketBTC.address,
-  //     lyra_btcErc721.address,
-  //     referrer
-  //   ],
-  // })
+  const txBuilderOpenLyraBTC = await deploy("txBuilderOpenLyraBTC", {
+    contract: "TxBuilderOpenLyra",
+    from: deployer,
+    log: true,
+    args: [
+      optionMarketBTC.address,
+      lyra_btcErc721.address,
+      referrer
+    ],
+  })
 
   // await execute(
   //   "txBuilderOpenLyraBTC",
@@ -46,7 +46,7 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
   //   "allApprove"
   // )
 
-  // // TxBuilder preparation
+  // TxBuilder preparation
 
   // await execute(
   //   "TxBuilder",

@@ -84,6 +84,11 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
       abi: await getArtifact("@openzeppelin/contracts/token/ERC20/ERC20.sol:ERC20").then((x) => x.abi),
     })
 
+    save("GMX", {
+      address: "0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a",
+      abi: await getArtifact("@openzeppelin/contracts/token/ERC20/ERC20.sol:ERC20").then((x) => x.abi),
+    })
+
     save("swapRouter", {
       address: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
       abi: await getArtifact("@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol:ISwapRouter").then((x) => x.abi),
@@ -137,6 +142,11 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
     save("IAlphaPortfolioValuesFeed", {
       address: "0xc7abaec336098cd0dcd98b67cb14d3b18e1c68a8",
       abi: await getArtifact("contracts/risk_finance/IAlphaPortfolioValuesFeed.sol:IAlphaPortfolioValuesFeed").then((x) => x.abi),
+    })
+
+    save("IPoolFactory", {
+      address: "0xAE4fB6622F25f397587F11638dA8CE88C27b5645",
+      abi: await getArtifact("contracts/premia/IPoolFactory.sol:IPoolFactory").then((x) => x.abi),
     })
   }
 }

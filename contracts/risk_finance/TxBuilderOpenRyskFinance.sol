@@ -1,4 +1,4 @@
-pragma solidity 0.8.9;
+pragma solidity 0.8.19;
 
 /**
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -26,6 +26,12 @@ import {IAlphaPortfolioValuesFeed} from "./IAlphaPortfolioValuesFeed.sol";
 import {ICombinedActions, ITxBuilderOpenRyskFinance} from "./ITxBuilderOpenRyskFinance.sol";
 import {ITypes} from "./ITypes.sol";
 
+/**
+ * @title Rysk Finance Transaction Builder - Open Position
+ * @author 0nika0
+ * @notice A contract facilitating the opening of positions on the Rysk Finance protocol. 
+ *         It provides functions to calculate transaction amounts, process transactions, and manage approvals.
+ */
 contract TxBuilderOpenRyskFinance is BaseTxBuilderOpen, ITxBuilderOpenRyskFinance {
     ERC20 public usdc;
     ERC20 public weth; 
@@ -187,6 +193,4 @@ contract TxBuilderOpenRyskFinance is BaseTxBuilderOpen, ITxBuilderOpenRyskFinanc
             ICombinedActions.OperationProcedures[]
         ));
     }
-
-
 }

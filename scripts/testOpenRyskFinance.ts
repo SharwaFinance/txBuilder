@@ -133,7 +133,7 @@ async function main() {
     })
   ]
 
-  await txBuilder.consolidationOfTransactions(moduleArray, parametersArray, swapDataArray, 0)
+  // await txBuilder.consolidationOfTransactions(moduleArray, parametersArray, swapDataArray, 0)
  }
 
 main()
