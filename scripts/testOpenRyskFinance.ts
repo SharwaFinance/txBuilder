@@ -116,11 +116,6 @@ async function main() {
       )
   ]
 
-  // console.log((await TxBuilderOpenRyskFinance.calculateAmount(parametersArray[0])))
-
-  // // console.log(await TxBuilderOpenRyskFinance.getOtokensAddresses(preparationParametrsArray))
-  // // console.log(await TxBuilderOpenRyskFinance.decodeFromRyskFinance(parametersArray[0]))
-
   const swapDataArray = [
     await exchanger.encodeFromExchange({
       path: solidityPack(["address", "uint24", "address"], [USDC.address, 3000, USDC.address]),
@@ -133,7 +128,7 @@ async function main() {
     })
   ]
 
-  // await txBuilder.consolidationOfTransactions(moduleArray, parametersArray, swapDataArray, 0)
+  await txBuilder.consolidationOfTransactions(moduleArray, parametersArray, swapDataArray, 0)
  }
 
 main()
