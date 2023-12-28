@@ -148,6 +148,16 @@ async function deployment(hre: HardhatRuntimeEnvironment): Promise<void> {
       address: "0xAE4fB6622F25f397587F11638dA8CE88C27b5645",
       abi: await getArtifact("contracts/premia/IPoolFactory.sol:IPoolFactory").then((x) => x.abi),
     })
+
+    save("IUniswapFreeAmounts", {
+      address: "0x1cA25e49A5Afd57900e5Ea317CEABBaA82A25746",
+      abi: await getArtifact("contracts/dopex/IUniswapFreeAmounts.sol:IUniswapFreeAmounts").then((x) => x.abi),
+    })
+
+    save("UniswapV3Pool_WETH_USDC", {
+      address: "0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443",
+      abi: await getArtifact("contracts/dopex/UniswapV3Pool.sol:UniswapV3Pool").then((x) => x.abi),
+    })
   }
 }
 

@@ -1,0 +1,82 @@
+{
+  "address": "0xeA5Fb118862876f249Ff0b3e7fb25fEb38158def",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint64",
+              "name": "expiration",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint128",
+              "name": "strike",
+              "type": "uint128"
+            },
+            {
+              "internalType": "bool",
+              "name": "isPut",
+              "type": "bool"
+            },
+            {
+              "internalType": "address",
+              "name": "underlying",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "strikeAsset",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "collateral",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct ITypes.OptionSeries",
+          "name": "_optionSeries",
+          "type": "tuple"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isSell",
+          "type": "bool"
+        },
+        {
+          "internalType": "int256",
+          "name": "netDhvExposure",
+          "type": "int256"
+        }
+      ],
+      "name": "quoteOptionPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "totalPremium",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "totalDelta",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalFees",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "numDeployments": 1
+}

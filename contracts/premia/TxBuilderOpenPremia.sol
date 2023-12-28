@@ -127,7 +127,7 @@ contract TxBuilderOpenPremia is BaseTxBuilderOpen, ITxBuilderOpenPremia, ERC1155
 
         uint256 id = isBuy ? 1 : 0; 
 
-        uint256 balancePoolTokens = ERC1155(poolAddress).balanceOf(user, id);
+        uint256 balancePoolTokens = ERC1155(poolAddress).balanceOf(address(this), id);
         
         ERC1155(poolAddress).safeTransferFrom(address(this), user, id, balancePoolTokens, "0x0");
         ERC20(token).transfer(user, ERC20(token).balanceOf(address(this)));

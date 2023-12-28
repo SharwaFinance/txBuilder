@@ -22,8 +22,9 @@ pragma solidity 0.8.19;
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IBaseTxBuilderOpen} from "./IBaseTxBuilderOpen.sol";
-import {Exchanger} from "./exchanger/Exchanger.sol";
+import {IExchanger} from "./exchanger/IExchanger.sol";
 import {ITxBuilder} from "./ITxBuilder.sol";
+import {IBuildManager} from "./IBuildManager.sol";
 
 /**
  * @title TxBuilder
@@ -33,53 +34,39 @@ import {ITxBuilder} from "./ITxBuilder.sol";
  */
 contract TxBuilder is Ownable, ITxBuilder {
 
-    Exchanger public exchanger;
+    IExchanger public exchanger;
+    IBuildManager public buildManager;
 
     mapping(uint256 => Module) public module;
 
-    uint256 public nextBuildID = 1;
-
     constructor(
-        address _exchanger
+        address _exchanger,
+        address _buildManager
     ) {
-        exchanger = Exchanger(_exchanger);
+        exchanger = IExchanger(_exchanger);
+        buildManager = IBuildManager(_buildManager);
     }
 
     // OWNER FUNCTIONS //
 
-    /**
-     * @dev See {ITxBuilder-setExchanger}.
-     */
     function setExchanger(address exchangerAddress) external onlyOwner {
-        exchanger = Exchanger(exchangerAddress);
+        exchanger = IExchanger(exchangerAddress);
     }
 
-    /**
-     * @dev See {ITxBuilder-setModule}.
-     */
     function setModule(uint256 index, Module calldata modData) external onlyOwner {
         module[index] = modData;
     }
 
-    /**
-     * @dev See {ITxBuilder-withdrawETH}.
-     */
     function withdrawETH(address user, uint256 amount) external onlyOwner {
         payable(user).transfer(amount);
     }
 
-    /**
-     * @dev See {ITxBuilder-withdrawERC20}.
-     */
     function withdrawERC20(address token, address user, uint256 amount) external onlyOwner {
         ERC20(token).transfer(user, amount);
     }
 
     // EXTERNAL FUNCTIONS //
 
-    /**
-     * @dev See {ITxBuilder-consolidationOfTransactions}.
-     */
     function consolidationOfTransactions(
         Module[] memory moduleArray, 
         bytes[] memory parametersArray,
@@ -87,6 +74,8 @@ contract TxBuilder is Ownable, ITxBuilder {
         uint256 productType
     ) external payable {
         require(moduleArray.length == parametersArray.length && parametersArray.length == swapDataArray.length, "arrays not equal");
+
+        uint256 buildID = buildManager.getBuildID();
         
         exchanger.checkMsgValue(swapDataArray, msg.value);
 
@@ -99,10 +88,11 @@ contract TxBuilder is Ownable, ITxBuilder {
                 exchanger.swap{ value: msgValue }(swapDataArray[i], msg.sender, moduleArray[i].moduleAddress);
             }    
 
-            IBaseTxBuilderOpen(moduleArray[i].moduleAddress).processTx(parametersArray[i], nextBuildID, msg.sender);
+            IBaseTxBuilderOpen(moduleArray[i].moduleAddress).processTx(parametersArray[i], buildID, msg.sender);
         }
 
-        emit CreateBuild(nextBuildID, msg.sender, productType);
-        nextBuildID++;
+        emit CreateBuild(buildID, msg.sender, productType);
+        
+        buildManager.increaseBuildID();
     }
 }

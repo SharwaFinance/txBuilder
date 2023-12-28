@@ -1,0 +1,45 @@
+{
+  "address": "0x1cA25e49A5Afd57900e5Ea317CEABBaA82A25746",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint160",
+          "name": "sqrtRatioX96",
+          "type": "uint160"
+        },
+        {
+          "internalType": "uint160",
+          "name": "lowerSqrtRatioX96",
+          "type": "uint160"
+        },
+        {
+          "internalType": "uint160",
+          "name": "upperSqrtRatioX96",
+          "type": "uint160"
+        },
+        {
+          "internalType": "uint128",
+          "name": "liquidity",
+          "type": "uint128"
+        }
+      ],
+      "name": "getFreeAmounts",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount0",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount1",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "numDeployments": 5
+}

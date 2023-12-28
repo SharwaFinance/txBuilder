@@ -1,0 +1,39 @@
+{
+  "address": "0x7740FC99bcaE3763a5641e450357a94936eaF380",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract IHegicStrategy",
+          "name": "strategy",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "period",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "additional",
+          "type": "bytes[]"
+        },
+        {
+          "internalType": "address",
+          "name": "referrer",
+          "type": "address"
+        }
+      ],
+      "name": "buyWithReferal",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "numDeployments": 1
+}

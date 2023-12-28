@@ -51,9 +51,6 @@ contract Exchanger is Ownable, IExchanger {
 
     // EXTERNAL FUNCTIONS // 
 
-    /**
-     * @dev See {IExchanger-swap}.
-     */
     function swap(bytes memory data, address from, address to) external payable {
         require(roleManager.hasRole(roleManager.TRADER_ROLE(), msg.sender), "msg.sender not have TRADER_ROLE");
         ExchangeData memory exchangeData = decodeFromExchange(data);
@@ -96,9 +93,6 @@ contract Exchanger is Ownable, IExchanger {
 
     // PURE FUNCTIONS //
     
-    /**
-     * @dev See {IExchanger-checkMsgValue}.
-     */
     function checkMsgValue(bytes[] memory swapDataArray, uint256 msgValue) external pure {
         uint256 msgValueCalc;
         for (uint i = 0; i < swapDataArray.length; i++) {
@@ -110,24 +104,15 @@ contract Exchanger is Ownable, IExchanger {
         require(msgValue == msgValueCalc, "invalid msg.value");
     }
 
-    /**
-     * @dev See {IExchanger-calculateMsgValue}.
-     */
     function calculateMsgValue(bytes memory swapData) external pure returns (uint256 value) {
         ExchangeData memory exchangeData = decodeFromExchange(swapData);
         if (exchangeData.isETH && exchangeData.swap) value = exchangeData.amountIn; 
     }
 
-    /**
-     * @dev See {IExchanger-encodeFromExchange}.
-     */
     function encodeFromExchange(ExchangeData memory data) external pure returns (bytes memory paramData) {
         return abi.encode(data);
     }
 
-    /**
-     * @dev See {IExchanger-decodeFromExchange}.
-     */
     function decodeFromExchange(bytes memory paramData) public pure returns (ExchangeData memory data) {
         (
             data

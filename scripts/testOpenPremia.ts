@@ -44,9 +44,9 @@ async function main() {
   const [ deployer ] = await hre.ethers.getSigners()
   
   // await USDCe.connect(deployer).approve(exchanger.address, parseUnits("1", 6))
-  // await WETH.connect(deployer).approve(exchanger.address, parseUnits("0.01", 18),)
+  // await WETH.connect(deployer).approve(exchanger.address, "349734575733844")
   // await WBTC.connect(deployer).approve(exchanger.address, ethers.constants.MaxUint256)
-  await GMX.connect(deployer).approve(exchanger.address, "333425004149463") 
+  // await GMX.connect(deployer).approve(exchanger.address, "333425004149463") 
 
   const moduleArray = [
     await txBuilder.module(ProtocolType.premia)
@@ -54,34 +54,35 @@ async function main() {
 
   const parametersArray = [
       await TxBuilderOpenPremia.encodeFromPremia(
-        "0x2e98ed9983747ab93f14503cde4cd0f1eacbd098",
+        "0xbae43c546DFADC69576aE73C68e0694A54F08e1B",
         {
-          base: GMX.address,
+          base: WETH.address,
           quote: USDCe.address,
-          oracleAdapter: "0x68bda63662b16550e86ad16160625eb293ac3d5f",
-          strike: "60000000000000000000",  
-          maturity: "1702627200",
+          oracleAdapter: "0x68BDA63662b16550e86Ad16160625eb293AC3d5F",
+          strike: "2300000000000000000000",  
+          maturity: "1705046400",
           isCallPool: true
         },
         "10000000000000000",
         true,
-        "333425004149463"
+        "449734575733844"
       )
   ]
 
   const swapDataArray = [
     await exchanger.encodeFromExchange({
-      path: solidityPack(["address", "uint24", "address"], [GMX.address, 3000, GMX.address]),
-      tokenIn: GMX.address,
-      tokenOut: GMX.address,
-      amountIn: BN.from("333425004149463"),
-      amountOutMinimum: BN.from("333425004149463"),
+      path: solidityPack(["address", "uint24", "address"], [WETH.address, 3000, WETH.address]),
+      tokenIn: WETH.address,
+      tokenOut: WETH.address,
+      amountIn: BN.from("449734575733844"),
+      amountOutMinimum: BN.from("449734575733844"),
       isETH: false,
       swap: false
     })
   ]
 
-  await txBuilder.consolidationOfTransactions(moduleArray, parametersArray, swapDataArray, 0)
+  const tx = await txBuilder.consolidationOfTransactions(moduleArray, parametersArray, swapDataArray, 0)
+  console.log(tx)
  }
 
 main()
